@@ -1,0 +1,8 @@
+### Testar a primeira funcionalidade
+GET http://localhost:5039 HTTP/1.1
+
+### Testar a segunda funcionalidade
+GET  http://localhost:5039/endereco HTTP/1.1
+
+### Testar a funcionaldade do post
+POST  http://localhost:5039/endereco HTTP/1.1
