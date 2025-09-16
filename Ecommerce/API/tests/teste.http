@@ -1,8 +1,15 @@
 ### Testar a primeira funcionalidade
 GET http://localhost:5039 HTTP/1.1
 
-### Testar a segunda funcionalidade
-GET  http://localhost:5039/endereco HTTP/1.1
+### Listar os produtos
+GET  http://localhost:5039/api/produto/listar    HTTP/1.1
 
-### Testar a funcionaldade do post
-POST  http://localhost:5039/endereco HTTP/1.1
+### Cadastrar os produtos
+POST http://localhost:5039/api/produto/cadastrar
+Content-Type:  application/json
+
+{
+    "nome" : "Luz RGB 5MT",
+    "quantidade" : 50,
+    "preço" : 360.50
+}
