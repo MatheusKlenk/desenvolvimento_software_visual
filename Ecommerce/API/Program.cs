@@ -1,11 +1,12 @@
 using API.Models;
+using Microsoft.AspNetCore.Mvc;
 Console.Clear();
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 //Lista de Produtos
-List<Produto> produtos = new List<Produto>
+List<Produto> produtos = new List<Produto>()
 {
     new Produto { Nome = "Mouse Gamer", Quantidade = 50, Preço = 150.75 },
     new Produto { Nome = "Teclado Mecânico RGB", Quantidade = 30, Preço = 450.00 },
@@ -22,8 +23,9 @@ List<Produto> produtos = new List<Produto>
 //Funcionalidade - Requisições
 // - UrL/Caminho/Endereço
 // - Um  Método HTTP
+
 // Métodos HTTP:
-// GET    -> Buscar dados do servidor (sem alterar nada)
+// GET    -> Recuperar/Enviar dados do servidor (sem alterar nada)
 // POST   -> Enviar novos dados para o servidor (criação)
 // PUT    -> Atualizar dados existentes (substituição completa)
 // PATCH  -> Atualizar parte dos dados (modificação parcial)
@@ -33,15 +35,56 @@ List<Produto> produtos = new List<Produto>
 //GET:/api/produto/listar
 app.MapGet("/", () => "API de Produtos  ");
 
+//Get para listar os produtos cadastrados
 app.MapGet("/api/produto/listar", () =>
 {
-    return produtos;
+    //Validar a lista de produtos para saber se existe algo dentro
+    if (produtos.Any())
+    {
+        return Results.Ok(produtos);
+    }
+    else
+    {
+        return Results.NotFound("A lista não possui nenhum produto");
+    }
+
 });
 
-//POST: /api/produto/cadastrar
-app.MapPost("/api/produto/cadastrar", (Produto produto) =>
+//GET: /api/produto/buscar/nome_do_produto
+app.MapGet("/api/produto/buscar/{nome}", (string nome) =>
 {
+    // foreach (Produto produtoCadastrado in produtos)
+    // {
+    //     if (produtoCadastrado.Nome == nome)
+    //         {
+    //         return Results.Ok(produtoCadastrado);
+    //     }
+    // }
+    //
+    //Expressao Lambda
+    Produto? resultado = produtos.FirstOrDefault(x => x.Nome == nome );
+    if (resultado is null)
+    {
+        return Results.NotFound("Produto não encontrado");
+    }
+    return Results.Ok(resultado);
+});
+
+
+//POST: /api/produto/cadastrar
+app.MapPost("/api/produto/cadastrar", ([FromBody] Produto produto) =>
+{
+    //Não permitir o cadastro de um produto com o mesmo nome
+
+    foreach (Produto produtoCadastrado in produtos)
+    {
+        if (produtoCadastrado.Nome == produto.Nome)
+        {
+            return Results.Conflict("Produto já cadastrado");
+        }
+    }
     produtos.Add(produto);
+    return Results.Created("", produto);
 });
 
 
