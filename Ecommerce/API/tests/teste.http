@@ -14,5 +14,18 @@ Content-Type:  application/json
 {
     "nome" : "Mouse Gamer Attack Shark X11",
     "quantidade" : 50,
-    "preço" : 360.50
+    "preco" : 360.50
+}
+
+### Remover um produto
+DELETE  http://localhost:5039/api/produto/apagar/c8c6b5bf-eb17-4e4e-abcc-4b84328fe4c5
+
+### Alterar os produtos
+PATCH  http://localhost:5039/api/produto/alterar/43310afc-490c-9a66-e94276e5d865
+Content-Type:  application/json
+
+{
+    "nome" : "Monitor LG Ultragear",
+    "quantidade" : 10,
+    "preco" : 899.50
 }

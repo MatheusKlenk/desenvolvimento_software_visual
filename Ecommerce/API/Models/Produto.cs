@@ -15,7 +15,7 @@ public class Produto
     public string Id { get; set; }
     public string Nome { get; set; } = string.Empty;
     public int Quantidade { get; set; }
-    public double Preço { get; set; }
+    public double Preco { get; set; }
     public DateTime CriadoEm { get; set; }
     
 
